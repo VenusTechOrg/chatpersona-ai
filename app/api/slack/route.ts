@@ -8,10 +8,13 @@ export async function POST(request: NextRequest) {
   try {
     // Parse the request body
     const body = await request.json();
-    const { name, agencyName, creatorCount, email, website } = body;
+    const { name, agencyName, creatorCount, email, website, buildChatbot } = body;
+
+    // Normalize and validate numeric creator count
+    const creatorCountNum = Number(creatorCount);
 
     // Validate required fields
-    if (!name || !agencyName || !creatorCount || !email || !website) {
+    if (!name || !agencyName || !Number.isFinite(creatorCountNum) || creatorCountNum < 1 || !email || !website || !buildChatbot) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
@@ -43,7 +46,7 @@ export async function POST(request: NextRequest) {
             },
             {
               type: "mrkdwn",
-              text: `*Creators:*\n${creatorCount}`
+              text: `*Creators:*\n${Math.trunc(creatorCountNum)}`
             },
             {
               type: "mrkdwn",
@@ -52,6 +55,10 @@ export async function POST(request: NextRequest) {
             {
               type: "mrkdwn",
               text: `*Website:*\n${website}`
+            },
+            {
+              type: "mrkdwn",
+              text: `*Build Chatbot:*\n${buildChatbot === 'yes' ? 'Yes' : 'No'}`
             },
             {
               type: "mrkdwn",

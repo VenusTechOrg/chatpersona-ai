@@ -11,7 +11,8 @@ export default function AgenciesPage() {
     agencyName: '',
     creatorCount: '',
     email: '',
-    website: ''
+    website: '',
+    buildChatbot: ''
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -49,9 +50,11 @@ export default function AgenciesPage() {
         body: JSON.stringify({
           name: formData.name,
           agencyName: formData.agencyName,
-          creatorCount: formData.creatorCount,
+          // Ensure numeric type is sent to the API
+          creatorCount: Number(formData.creatorCount),
           email: formData.email,
-          website: formData.website
+          website: formData.website,
+          buildChatbot: formData.buildChatbot
         }),
       });
 
@@ -101,7 +104,7 @@ export default function AgenciesPage() {
                 whileTap={{ scale: 0.95 }}
                 onClick={() => {
                   setIsSubmitted(false);
-                  setFormData({ name: '', agencyName: '', creatorCount: '', email: '', website: '' });
+                  setFormData({ name: '', agencyName: '', creatorCount: '', email: '', website: '', buildChatbot: '' });
                 }}
                 className="bg-gradient-to-r from-cp-purple to-cp-blue text-white font-semibold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
               >
@@ -283,11 +286,48 @@ export default function AgenciesPage() {
                 />
               </motion.div>
 
+              {/* Build Chatbot Question */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.6 }}
+              >
+                <label className="block text-sm font-semibold text-gray-700 mb-3">
+                  Would you like to build your own Chatbot using our AI? *
+                </label>
+                <div className="flex space-x-6">
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      name="buildChatbot"
+                      value="yes"
+                      checked={formData.buildChatbot === 'yes'}
+                      onChange={handleInputChange}
+                      required
+                      className="w-5 h-5 text-cp-purple bg-gray-100 border-gray-300 focus:ring-cp-purple focus:ring-2"
+                    />
+                    <span className="ml-3 text-lg text-gray-700">Yes</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      name="buildChatbot"
+                      value="no"
+                      checked={formData.buildChatbot === 'no'}
+                      onChange={handleInputChange}
+                      required
+                      className="w-5 h-5 text-cp-purple bg-gray-100 border-gray-300 focus:ring-cp-purple focus:ring-2"
+                    />
+                    <span className="ml-3 text-lg text-gray-700">No</span>
+                  </label>
+                </div>
+              </motion.div>
+
               {/* Submit Button */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.6 }}
+                transition={{ duration: 0.6, delay: 0.7 }}
                 className="pt-4"
               >
                 <motion.button
