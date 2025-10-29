@@ -28,65 +28,23 @@ export default function AgenciesPage() {
     setIsSubmitting(true);
     
     try {
-      // Send to Slack webhook
-      const slackWebhookUrl = process.env.NEXT_PUBLIC_SLACK_WEBHOOK_URL;
-      
-      if (slackWebhookUrl) {
-        const slackMessage = {
-          text: "🎯 New Agency Lead!",
-          blocks: [
-            {
-              type: "header",
-              text: {
-                type: "plain_text",
-                text: "New Agency Lead"
-              }
-            },
-            {
-              type: "section",
-              fields: [
-                {
-                  type: "mrkdwn",
-                  text: `*Name:*\n${formData.name}`
-                },
-                {
-                  type: "mrkdwn",
-                  text: `*Agency:*\n${formData.agencyName}`
-                },
-                {
-                  type: "mrkdwn",
-                  text: `*Creators:*\n${formData.creatorCount}`
-                },
-                {
-                  type: "mrkdwn",
-                  text: `*Time:*\n${new Date().toLocaleString()}`
-                }
-              ]
-            },
-            {
-              type: "actions",
-              elements: [
-                {
-                  type: "button",
-                  text: {
-                    type: "plain_text",
-                    text: "View Form"
-                  },
-                  url: `${window.location.origin}/agencies`,
-                  style: "primary"
-                }
-              ]
-            }
-          ]
-        };
+      // Send to secure API route (token is never exposed to frontend)
+      const response = await fetch('/api/slack', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          agencyName: formData.agencyName,
+          creatorCount: formData.creatorCount
+        }),
+      });
 
-        await fetch(slackWebhookUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(slackMessage),
-        });
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Slack API error:', errorData.error);
+        // Continue with success flow even if Slack fails
       }
       
       // Simulate additional processing time
