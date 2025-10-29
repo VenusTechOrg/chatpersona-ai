@@ -9,7 +9,9 @@ export default function AgenciesPage() {
   const [formData, setFormData] = useState({
     name: '',
     agencyName: '',
-    creatorCount: ''
+    creatorCount: '',
+    email: '',
+    website: ''
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -21,6 +23,16 @@ export default function AgenciesPage() {
       ...prev,
       [name]: value
     }));
+  };
+
+  const handleWebsiteBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    if (value && !value.match(/^https?:\/\//)) {
+      setFormData(prev => ({
+        ...prev,
+        website: `https://${value}`
+      }));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -37,7 +49,9 @@ export default function AgenciesPage() {
         body: JSON.stringify({
           name: formData.name,
           agencyName: formData.agencyName,
-          creatorCount: formData.creatorCount
+          creatorCount: formData.creatorCount,
+          email: formData.email,
+          website: formData.website
         }),
       });
 
@@ -87,7 +101,7 @@ export default function AgenciesPage() {
                 whileTap={{ scale: 0.95 }}
                 onClick={() => {
                   setIsSubmitted(false);
-                  setFormData({ name: '', agencyName: '', creatorCount: '' });
+                  setFormData({ name: '', agencyName: '', creatorCount: '', email: '', website: '' });
                 }}
                 className="bg-gradient-to-r from-cp-purple to-cp-blue text-white font-semibold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
               >
@@ -204,6 +218,27 @@ export default function AgenciesPage() {
                 />
               </motion.div>
 
+              {/* Email Field */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.45 }}
+              >
+                <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-3">
+                  What's your email address? *
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full px-6 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-cp-purple focus:border-transparent transition-all duration-300 text-lg mobile-input placeholder:text-base"
+                  placeholder="you@agency.com"
+                />
+              </motion.div>
+
               {/* Creator Count Field */}
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
@@ -223,6 +258,28 @@ export default function AgenciesPage() {
                   min="1"
                   className="w-full px-6 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-cp-purple focus:border-transparent transition-all duration-300 text-lg mobile-input placeholder:text-base"
                   placeholder="Enter number of creators"
+                />
+              </motion.div>
+
+              {/* Agency Website Field */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.55 }}
+              >
+                <label htmlFor="website" className="block text-sm font-semibold text-gray-700 mb-3">
+                  What's your agency website? *
+                </label>
+                <input
+                  type="url"
+                  id="website"
+                  name="website"
+                  value={formData.website}
+                  onChange={handleInputChange}
+                  onBlur={handleWebsiteBlur}
+                  required
+                  className="w-full px-6 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-cp-purple focus:border-transparent transition-all duration-300 text-lg mobile-input placeholder:text-base"
+                  placeholder="your-agency.com"
                 />
               </motion.div>
 

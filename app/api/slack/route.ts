@@ -8,10 +8,10 @@ export async function POST(request: NextRequest) {
   try {
     // Parse the request body
     const body = await request.json();
-    const { name, agencyName, creatorCount } = body;
+    const { name, agencyName, creatorCount, email, website } = body;
 
     // Validate required fields
-    if (!name || !agencyName || !creatorCount) {
+    if (!name || !agencyName || !creatorCount || !email || !website) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
@@ -44,6 +44,14 @@ export async function POST(request: NextRequest) {
             {
               type: "mrkdwn",
               text: `*Creators:*\n${creatorCount}`
+            },
+            {
+              type: "mrkdwn",
+              text: `*Email:*\n${email}`
+            },
+            {
+              type: "mrkdwn",
+              text: `*Website:*\n${website}`
             },
             {
               type: "mrkdwn",
