@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { WebClient } from '@slack/web-api';
+import type { ChatPostMessageArguments } from '@slack/web-api';
 
 // Initialize Slack client with bot token
 const slack = new WebClient(process.env.SLACK_BOT_TOKEN);
@@ -21,9 +22,18 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Ensure Slack channel is configured
+    const channelId = process.env.SLACK_CHANNEL_ID;
+    if (!channelId) {
+      return NextResponse.json(
+        { error: 'Slack channel is not configured on the server' },
+        { status: 500 }
+      );
+    }
+
     // Create the Slack message
-    const message = {
-      channel: process.env.SLACK_CHANNEL_ID,
+    const message: ChatPostMessageArguments = {
+      channel: channelId,
       text: "🎯 New Agency Lead!",
       blocks: [
         {
