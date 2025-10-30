@@ -56,7 +56,7 @@ export default function Header() {
             <a href="/#pricing" className="text-gray-700 hover:text-purple-600 hover:bg-purple-50 px-3 py-2 rounded-lg transition-all duration-300 font-medium text-sm xl:text-base">Pricing</a>
             <a href="/blogs" className="text-gray-700 hover:text-purple-600 hover:bg-purple-50 px-3 py-2 rounded-lg transition-all duration-300 font-medium text-sm xl:text-base">Blog</a>
             <a href="/#testimonials" className="text-gray-700 hover:text-purple-600 hover:bg-purple-50 px-3 py-2 rounded-lg transition-all duration-300 font-medium text-sm xl:text-base">Testimonials</a>
-            <a href="https://form.typeform.com/to/m0p8jU1z?typeform-source=takedownsai.typeform.com" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-purple-600 hover:bg-purple-50 px-3 py-2 rounded-lg transition-all duration-300 font-medium text-sm xl:text-base">For Agencies</a>
+            <a href="/agencies" className="text-gray-700 hover:text-purple-600 hover:bg-purple-50 px-3 py-2 rounded-lg transition-all duration-300 font-medium text-sm xl:text-base">For Agencies</a>
           </nav>
 
           {/* CTA Buttons - Hidden on mobile, shown on desktop */}
@@ -132,9 +132,7 @@ export default function Header() {
                 Testimonials
               </a>
               <a 
-                href="https://form.typeform.com/to/m0p8jU1z?typeform-source=takedownsai.typeform.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
+                href="/agencies" 
                 className="text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 px-5 py-4 rounded-xl transition-all duration-300 font-semibold text-lg touch-manipulation border border-transparent hover:border-purple-200 block w-full text-left"
                 onClick={() => setIsMenuOpen(false)}
                 style={{ minHeight: '48px' }}
