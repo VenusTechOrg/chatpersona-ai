@@ -31,3 +31,10 @@ yarn-error.log*
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
+
+# Generator/utility files
+generate-*.html
+generate-*.js
+create_*.html
+blog-thumbnail-generator.html
+persona-descriptions.txt
