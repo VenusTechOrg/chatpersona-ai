@@ -12,7 +12,14 @@ export default function Blogs() {
 
   const categories = ['All', ...Array.from(new Set(blogPosts.map(post => post.category)))];
   
-  const filteredPosts = blogPosts.filter(post => {
+  // Sort all blogs by date (most recent first)
+  const sortedBlogPosts = [...blogPosts].sort((a, b) => {
+    const dateA = new Date(a.publishedAt).getTime();
+    const dateB = new Date(b.publishedAt).getTime();
+    return dateB - dateA; // Most recent first
+  });
+  
+  const filteredPosts = sortedBlogPosts.filter(post => {
     const matchesCategory = selectedCategory === 'All' || post.category === selectedCategory;
     const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||

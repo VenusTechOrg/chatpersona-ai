@@ -1,0 +1,6 @@
+# Generator files (not needed in production)
+generate-*.html
+generate-*.js
+create_*.html
+blog-thumbnail-generator.html
+

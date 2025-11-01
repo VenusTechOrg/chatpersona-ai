@@ -11,6 +11,16 @@ const nextConfig = {
     ],
     formats: ['image/webp', 'image/avif'],
   },
+  experimental: {
+    outputFileTracingExcludes: {
+      '*': [
+        'generate-*.html',
+        'generate-*.js',
+        'create_*.html',
+        'blog-thumbnail-generator.html',
+      ],
+    },
+  },
 }
 
 module.exports = nextConfig
